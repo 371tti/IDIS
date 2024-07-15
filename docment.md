@@ -65,7 +65,8 @@ mongoDBにはコレクション内では同一のフォーマットが使用さ�
       'e-mail': user_mail_address,
       'berth': berth_date,
       'RUID': User_RUID,
-      'root-path': account_root_folder_path
+      'root-path': account_root_folder_path,
+      'create-time': account_create_time
    }
    ```
 ## session
