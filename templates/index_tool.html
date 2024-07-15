@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="tool , idis ,tools">
+    <meta property="og:description" content="idis tool index">
+    <meta property="og:title" content="tools - IDIS">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="/tools">
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Tool Index</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #12151b;
+            color: #bbbbbb;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Noto Sans JP', sans-serif, monospace;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            border-right: solid 10mm #b3b3b3;
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: lighter;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        h2, h3, h4, h5, h6 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .q {
+            padding: 10mm 10mm;
+            overflow-y: auto;
+            height: 100%;
+            width: 100%;
+        }
+
+        .i {
+            margin: 0mm 0 0 10mm;
+            border-left: solid 1px #bbbbbb;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+        }
+
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .block {
+            display: block;
+        }
+
+        .subtitle {
+            padding: 3mm 0 0 3mm;
+            color: #ff9900;
+        }
+
+        .indent {
+            padding: 0 0 0 8mm;
+        }
+
+        .index {
+            display: flex;
+            flex-direction: column;
+        }
+
+        a.button {
+            display: inline-block;
+            background-color: #464646;
+            color: #fff;
+            border: none;
+            font-size: 1em;
+            padding: 10px 20px;
+            margin-top: 20px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s;
+            align-items: center;
+        }
+
+        a.button:hover {
+            background-color: #371371;
+        }
+
+        .button i {
+            margin-right: 10px;
+        }
+
+        .tool-description {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="q">
+        <div class="flex">
+            <h1>Tool Index</h1>
+        </div>
+        <div class="indent">
+            <div class="tool">
+                <a href="/@example/tools/editor.html" class="button"><i class="fas fa-wrench"></i>editor</a>
+                <p class="tool-description">this is simple text editor ..by monaco editor</p>
+            </div>
+            <div class="tool">
+                <a href="/tool2" class="button"><i class="fas fa-chart-line"></i> Tool 2</a>
+                <p class="tool-description">None</p>
+            </div>
+            <div class="tool">
+                <a href="/tool3" class="button"><i class="fas fa-cogs"></i> Tool 3</a>
+                <p class="tool-description">None</p>
+            </div>
+            <div class="tool">
+                <a href="/tool4" class="button"><i class="fas fa-shield-alt"></i> Tool 4</a>
+                <p class="tool-description">None</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

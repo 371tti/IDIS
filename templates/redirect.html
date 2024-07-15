@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/get/templates/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="tool , url , idis , redirect">
+    <meta property="og:description" content="to {{url}}">
+    <meta property="og:title" content="rsend - IDIS">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="/rsend">
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+    <title>Redirect-idis </title>
+    <style>
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #12151b;
+            color: #bbbbbbbb;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Noto Sans JP', sans-serif, monospace;
+            overflow: hidden;
+
+        }
+
+        body {
+            margin: 0;
+
+            height: 100%;
+
+            width: 100%;
+
+            border-right: solid 10mm #00fff2bb;
+
+
+
+
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: lighter;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        .q {
+            padding: 10mm 10mm;
+            overflow-y: auto;
+            height: 100%;
+            width: 100%;
+
+            &::-webkit-scrollbar {
+                display: none;
+
+            }
+        }
+
+        .i {
+            margin: 0mm 0 0 10mm;
+            border-left: solid 1px #bbbbbbbb;
+
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+
+        }
+
+        p {
+            margin: 4mm 0mm 1mm 2mm;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ff5bec;
+            position: relative;
+            padding-bottom: 0.1em;
+            transition: color 0.2s;
+            display: inline-block;
+            background-color: #00000000;
+        }
+
+        a:hover {
+            color: #ff00e1;
+        }
+
+        a::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 0.2em;
+            background-color: #ff00e1;
+            bottom: 0;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s;
+        }
+
+        a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="q">
+        <h1>Redirect {{code}}</h1>
+        <div class="i">
+            <ul>
+                <li>{{ms}}</li>
+                <li>url : {{url}}</li>
+                <li><a href="{{url}}">Transfer as soon as you click</a></li>
+                <li id="cd">{{ms}}</li>
+            </ul>
+        </div>
+
+
+    </div>
+</body>
+<script>
+    // リダイレクト先のURL
+    const redirectTo = "{{url}}";
+
+    // カウントダウンの秒数
+    let countdownSeconds = {{ tim }};
+
+    function updateCountdown() {
+        // カウントダウン表示の更新
+        document.getElementById("cd").textContent = `Redirect in ${countdownSeconds} seconds`;
+
+        if (countdownSeconds === 0) {
+            // カウントダウンが0になったらリダイレクト
+            window.location.href = redirectTo;
+        } else {
+            // カウントダウンを1減らして1秒後に再度更新
+            countdownSeconds--;
+            setTimeout(updateCountdown, 1000);
+        }
+    }
+
+    // ページ読み込み時にカウントダウン開始
+    window.onload = updateCountdown;
+</script>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="idis , sns . cloud , storage">
+    <meta property="og:description" content="idis index">
+    <meta property="og:title" content="IDIS - index">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="/">
+    <title>IDIS</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #12151b;
+            color: #bbbbbbbb;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Noto Sans JP', sans-serif, monospace;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+        .main {
+            height: calc(100% - 6mm);
+            width: 100%;
+        }
+        p {
+            padding: 0;
+            margin: 0;
+        }
+        .status-ber {
+            height: 6mm;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="Iframe" class="main" src="/index" frameborder="0"></iframe>
+    <div class="status-ber">idis-flame ver.β2.1.0 *secure pages*</div>
+    
+    <script>
+        const allowedUrls = ['/login','/signup','/index','/tools',"/UI"];
+        const warningMessage = 'This link has not been verified as secure. Click "Transfer as soon as you click" to continue.';
+
+        function validateIframeUrl(url) {
+            return allowedUrls.includes(url);
+        }
+
+        function redirectToWarning(url) {
+            window.open(`/rsend?url=${encodeURIComponent(url)}&ms=${encodeURIComponent(warningMessage)}&time=-1`, '_blank');
+        }
+
+        const iframe = document.getElementById('Iframe');
+
+        iframe.addEventListener('load', function() {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const currentUrl = iframe.contentWindow.location.pathname;
+
+            if (!validateIframeUrl(currentUrl)) {
+                redirectToWarning(currentUrl);
+            }
+
+            const links = iframeDocument.getElementsByTagName('a');
+            for (let link of links) {
+                link.addEventListener('click', function(event) {
+                    const url = new URL(link.href);
+                    if (!validateIframeUrl(url.pathname)) {
+                        event.preventDefault();
+                        redirectToWarning(url.pathname);
+                    }
+                });
+            }
+        });
+
+        iframe.addEventListener('beforeunload', function(event) {
+            const nextUrl = event.target.activeElement.href;
+            if (nextUrl && !validateIframeUrl(new URL(nextUrl).pathname)) {
+                event.preventDefault();
+                redirectToWarning(new URL(nextUrl).pathname);
+            }
+        });
+
+        var socket = io({query: {token: "{{token}}" }});
+
+        socket.on('connect', function() {
+            console.log('Connected to the server');
+        });
+
+        socket.on('disconnect', function() {
+            console.log('Disconnected from the server');
+        });
+    </script>
+</body>
+</html>

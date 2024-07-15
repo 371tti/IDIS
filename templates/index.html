@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="{{APP_NAME}} , sns . cloud , storage">
+    <meta property="og:description" content="{{APP_NAME}} index">
+    <meta property="og:title" content="{{APP_NAME}} - index">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="/">
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>{{APP_NAME}}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            position: relative;
+
+            ::selection {
+                background-color: #ffffff85;
+                /* 背景色 */
+                color: #ffffff;
+                /* 文字色 */
+            }
+
+            /* Firefox用 */
+            ::-moz-selection {
+                background-color: #ffffff7c;
+                /* 背景色 */
+                color: #ffffff;
+                /* 文字色 */
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #12151b;
+            color: #bbbbbb;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Noto Sans JP', sans-serif, monospace;
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            border-right: solid 10mm #b3b3b3;
+            position: relative;
+            overflow: hidden;
+        }
+
+        img.background {
+            object-fit: cover;
+            z-index: -1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            filter: blur(0px);
+            transform: translateY(0);
+            transition: transform 1000ms ease-out;
+        }
+
+        @media (max-width: 700px) {
+            img.background {
+                width: 300%;
+                left: calc(50% - 150%);
+            }
+            #chartContainer {
+        height: 300px; /* スマホ用に高さを調整 */
+    }
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(rgba(18, 21, 27, 0.8), rgba(18, 21, 27, 0.8));
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: lighter;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+
+        p {
+            margin: 0;
+            text-shadow: 0px 0px 2mm #000000; /* シャドウの例 */
+        }
+
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+            padding: 0;
+            text-shadow: 0px 0px 2mm #000000;
+        }
+
+        .q {
+            padding: 10mm 10mm;
+            overflow-y: auto;
+            height: 100%;
+            width: 100%;
+        }
+
+        .i {
+            margin: 0mm 0 0 10mm;
+            border-left: solid 1px #bbbbbb;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .block {
+            display: block;
+        }
+
+        .subtitle {
+            padding: 3mm 0 0 3mm;
+            color: #ff9900;
+        }
+
+        .indent {
+            padding: 0 0 0 5mm;
+            margin: 0 0 0 5mm;
+            border-left: solid 1px #bbbbbb;
+        }
+
+        a.button {
+            display: inline-block;
+            background-color: #464646;
+            color: #fff;
+            border: none;
+            font-size: 1em;
+            padding: 3mm 10mm;
+            margin-top: 3mm;
+            border-radius: 0px;
+            border: #ffffff7c solid 1mm;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+
+        a.button:hover {
+            background-color: #371371;
+        }
+
+        .index {
+            flex-direction: column;
+            display: flex;
+        }
+
+        hr {
+            margin: 5mm 0mm;
+            color: #b3b3b3;
+        }
+
+        .ll {
+            width: 60mm;
+        }
+
+        .stats {
+            margin: 20px 0;
+            color: #ffffff;
+        }
+
+        #chartContainer {
+            width: 100%;
+            height: 400px;
+        }
+
+        canvas {
+            
+        }
+    </style>
+</head>
+
+<body>
+    <img src="/root/r/neoki_b.jpg" srcset="
+    /root/r/neoki_b.jpg 1x,
+    /root/r/neoki.jpg 2x
+    alt="Background Image" class="background" id="backgroundImage">
+    <div class="overlay"></div>
+    <div class="q" id="content">
+        <div class="flex">
+            <h1>{{APP_NAME}}</h1>
+            <div class="block subtitle">
+                <h2>Development Versions</h2>
+            </div>
+        </div>
+        <div class="indent">
+            <h2>{{APP_NAME}} provides <br>pure storage services <br>high-performance sharing services <br>social networking
+                services</h2>
+        </div>
+        <div style="margin-top: 20px;">
+            <a href="/login" class="button"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="/signup" class="button"><i class="fas fa-user-plus"></i> Signup</a>
+        </div>
+    
+        <hr>
+        <div class="indent">
+        <div class="stats">
+            <p>ユーザー数: <span id="totalUsers">0</span></p>
+            <p>オンラインユーザー数: <span id="onlineUsers">0</span></p>
+            <p>ノート数: <span id="totalNotes">0</span></p>
+        </div>
+        <div id="chartContainer">
+            <canvas id="userNoteChart"></canvas>
+        </div>
+    </div>
+    <hr>
+        <h2>index</h2>
+        <div class="index">
+            <h2>service</h2>
+            <div class="indent index">
+                <a href="/tools" class="button ll"><i class="fas fa-wrench"></i> Tool</a>
+                <a href="/UI" class="button ll"><i class="fas fa-stream"></i> Timeline</a>
+            </div>
+            <h2>info</h2>
+            <div class="indent index">
+                <a href="/serverinfo" class="button ll"><i class="fas fa-server"></i> Server Information</a>
+                <a href="/about" class="button ll"><i class="fas fa-info-circle"></i> About Us</a>
+                <a href="/contact" class="button ll"><i class="fas fa-envelope"></i> Contact</a>
+
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+                <h1>ex info</h1>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.getElementById('content').addEventListener('scroll', function () {
+            const content = document.getElementById('content');
+            const backgroundImage = document.getElementById('backgroundImage');
+            const maxBlurDistance = 400 * 3.78; // 30mm in pixels (assuming 1mm = 3.78px)
+            const blurStart = 200 * 3.78; // The scroll position at which blur starts
+            const blurEnd = blurStart + maxBlurDistance; // The scroll position at which max blur is applied
+
+            const scrollTop = content.scrollTop;
+            const scrollHeight = content.scrollHeight;
+            const clientHeight = content.clientHeight;
+            const scrollPercentage = scrollTop / (scrollHeight - clientHeight);
+
+            let blurValue = 0;
+            if (scrollTop > blurStart) {
+                blurValue = Math.min((scrollTop - blurStart) / (blurEnd - blurStart) * 20, 20); // 10 is the max blur value
+            }
+
+            const moveDistance = (backgroundImage.clientHeight - window.innerHeight) * scrollPercentage;
+            backgroundImage.style.transform = `translateY(-${moveDistance}px)`;
+            backgroundImage.style.filter = `blur(${blurValue}px)`;
+        });
+
+        // Chart.jsの設定
+        const ctx = document.getElementById('userNoteChart').getContext('2d');
+        var userNoteChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Users',
+                    data: [2, 15, 80, 97, 231, 803, 1000],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                    yAxisID: 'y-users'
+                }, {
+                    label: 'Notes',
+                    data: [28, 123, 243, 1002, 2349, 9213, 12392],
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    fill: false,
+                    yAxisID: 'y-notes'
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.8)', // データセットのラベルの文字色
+                            font: {
+                                size: 14 // データセットのラベルのフォントサイズ
+                            }
+                        }
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month',
+                            color: 'rgba(255, 255, 255, 0.8)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.4)',
+                            lineWidth: 1
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.8)'
+                        }
+                    },
+                    'y-users': {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Users',
+                            color: 'rgba(255, 255, 255, 0.8)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.4)',
+                            lineWidth: 1
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.8)'
+                        }
+                    },
+                    'y-notes': {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Notes',
+                            color: 'rgba(255, 255, 255, 0.8)'
+                        },
+                        grid: {
+                            drawOnChartArea: false, // グリッド線を表示しない
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.8)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // データを更新する関数（例として固定データを使用）
+        function updateStats(totalUsers, onlineUsers, totalNotes) {
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('onlineUsers').textContent = onlineUsers;
+            document.getElementById('totalNotes').textContent = totalNotes;
+        }
+
+        // 初期データの設定
+        updateStats(1000, 123, 4567);
+    </script>
+</body>
+
+</html>

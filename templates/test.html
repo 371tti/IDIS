@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Editor with Monaco</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5mm; /* 高さを40pxに設定 */
+            background-color: #2d2d2d;
+        }
+        #file-menu, #style-menu {
+            position: relative;
+        }
+        #file-menu-button, #style-menu-button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 1em;
+            color: #d4d4d4;
+            padding: 5px 10px;
+        }
+        #file-menu-button {
+            border-left: 2mm solid #d4d4d4;
+        }
+        #save-options, #style-options {
+            display: none;
+            position: absolute;
+            top: 5mm;
+            left: 0;
+            color: #d4d4d4;
+            background-color: #2d2d2d;
+            border-left: 2mm solid #d4d4d4;
+            z-index: 1000;
+            width: 40mm;
+            animation: slide-down 0.2s ease;
+            box-shadow: 1mm 1mm 2mm #000000a0;
+        }
+        #save-options option, #style-options option {
+            display: block;
+            padding: 1mm;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #d4d4d4;
+            text-align: left;
+        }
+        #save-options option:hover, #style-options option:hover {
+            background-color: #3c3c3c;
+        }
+        #filename {
+            border: none;
+            background-color: #2d2d2d;
+            color: #d4d4d4;
+            font-size: 1em;
+            outline: none;
+        }
+        #editor-container {
+            display: flex;
+            flex: 1;
+        }
+        #editor, #css-editor {
+            width: 50%;
+            height: calc(100vh - 5mm);
+            border-right: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        #output {
+            width: 50%;
+            height: calc(100vh - 5mm);
+            padding: 0;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+        #resizer {
+            width: 2mm;
+            background-color: #ccc;
+            cursor: col-resize;
+        }
+        #filename {
+            background-color: #3c3c3c;
+            border: none;
+            color: #d4d4d4;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .hidden {
+            display: none;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/loader.min.js"></script>
+</head>
+<body>
+    <div id="top-bar">
+        <div id="file-menu">
+            <button id="file-menu-button">File</button>
+            <div id="save-options">
+                <option value="save">Save</option>
+                <option value="save-as">Save As</option>
+                <option value="save-local">Save Locally</option>
+            </div>
+        </div>
+        <div id="style-menu">
+            <button id="style-menu-button">Style</button>
+            <div id="style-options">
+                <option value="edit-css">Edit CSS</option>
+            </div>
+        </div>
+        <div>
+            <label for="filename"><i class="fas fa-pencil-alt"></i></label>
+            <input type="text" id="filename" placeholder="Untitled" />
+        </div>
+    </div>
+    <div id="editor-container">
+        <div id="editor"></div>
+        <div id="css-editor" class="hidden"></div>
+        <div id="resizer"></div>
+        <div id="output">
+            <iframe id="outputFrame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        window.require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs' }});
+        window.require(['vs/editor/editor.main'], function() {
+            var markdownEditor = monaco.editor.create(document.getElementById('editor'), {
+                value: '# ここにマークダウンを入力してください',
+                language: 'markdown',
+                theme: 'vs-dark',
+                automaticLayout: true
+            });
+
+            var cssEditor = monaco.editor.create(document.getElementById('css-editor'), {
+                value: '/* ここにCSSを入力してください */',
+                language: 'css',
+                theme: 'vs-dark',
+                automaticLayout: true
+            });
+
+            markdownEditor.onDidChangeModelContent(function () {
+                updateOutput(markdownEditor.getValue(), cssEditor.getValue());
+            });
+
+            cssEditor.onDidChangeModelContent(function () {
+                updateOutput(markdownEditor.getValue(), cssEditor.getValue());
+            });
+
+            function updateOutput(markdownText, cssText) {
+                const htmlContent = marked.parse(markdownText);
+                const iframe = document.getElementById('outputFrame');
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                iframeDocument.open();
+                iframeDocument.write(`<style>${cssText}</style>${htmlContent}`);
+                iframeDocument.close();
+            }
+
+            function saveLocally() {
+                const markdownText = markdownEditor.getValue();
+                const cssText = cssEditor.getValue();
+                const htmlContent = marked.parse(markdownText);
+                const fullHtml = `
+                    <!DOCTYPE html>
+                    <html lang="ja">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>${document.getElementById('filename').value}</title>
+                        <style>${cssText}</style>
+                    </head>
+                    <body>
+                        ${htmlContent}
+                    </body>
+                    </html>
+                `;
+                const blob = new Blob([fullHtml], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = (document.getElementById('filename').value || 'untitled') + '.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // Initialize output
+            updateOutput(markdownEditor.getValue(), cssEditor.getValue());
+
+            // Add event listener to save locally option
+            const saveLocallyOption = document.querySelector('#save-options option[value="save-local"]');
+            saveLocallyOption.addEventListener('click', saveLocally);
+        });
+
+        // Resizer functionality
+        const resizer = document.getElementById('resizer');
+        const leftPanel = document.getElementById('editor');
+        const rightPanel = document.getElementById('output');
+        const cssPanel = document.getElementById('css-editor');
+        let isResizing = false;
+        const minWidth = 200; // 最小幅を200pxに設定
+
+        resizer.addEventListener('mousedown', function(e) {
+            isResizing = true;
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isResizing) return;
+            const offsetRight = document.body.offsetWidth - e.clientX;
+            if (e.clientX > minWidth && offsetRight > minWidth) {
+                leftPanel.style.width = `calc(100% - ${offsetRight}px)`;
+                rightPanel.style.width = `${offsetRight}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', function(e) {
+            isResizing = false;
+        });
+
+        // File menu functionality
+        const fileMenuButton = document.getElementById('file-menu-button');
+        const saveOptions = document.getElementById('save-options');
+
+        fileMenuButton.addEventListener('click', function() {
+            saveOptions.style.display = saveOptions.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!fileMenuButton.contains(event.target) && !saveOptions.contains(event.target)) {
+                saveOptions.style.display = 'none';
+            }
+        });
+
+        // Style menu functionality
+        const styleMenuButton = document.getElementById('style-menu-button');
+        const styleOptions = document.getElementById('style-options');
+
+        styleMenuButton.addEventListener('click', function() {
+            styleOptions.style.display = styleOptions.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!styleMenuButton.contains(event.target) && !styleOptions.contains(event.target)) {
+                styleOptions.style.display = 'none';
+            }
+        });
+
+        // Edit CSS option functionality
+        const editCssOption = document.querySelector('#style-options option[value="edit-css"]');
+
+        editCssOption.addEventListener('click', function() {
+            if (cssPanel.classList.contains('hidden')) {
+                cssPanel.classList.remove('hidden');
+                leftPanel.classList.add('hidden');
+            } else {
+                cssPanel.classList.add('hidden');
+                leftPanel.classList.remove('hidden');
+            }
+            styleOptions.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

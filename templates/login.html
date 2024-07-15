@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- もうちょっと非同期で処理してくれたり検証してくれたりなんかログイン時にいい感じのアニメーションつけたいよね、、、-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <title>login-idis</title>
+
+    <meta name="description" content="idis login page , idis signup page , create account">
+    <meta property="og:description" content="idis login page">
+    <meta property="og:title" content="Login - IDIS">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="/login">
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            color: #cccccc;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', 'Noto Sans JP', sans-serif,monospace;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            background-color: #12151b;
+        }
+
+        .center {
+            width: 250mm;
+            height: 120mm;
+            display: flex;
+            margin: 0 auto;
+            margin-top: calc(50vh - 60mm);
+            justify-content: center;
+            transition: all 0.4s;
+
+            background-color: #12151b;
+            box-shadow: 1px 1px 8mm 2mm #535353;
+        }
+
+
+        h2,
+        h3,
+        h4,
+        p {
+            padding: 0;
+            margin: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-25%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0%);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-25%);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s forwards;
+            visibility: visible;
+            /* 要素を表示 */
+        }
+
+        .fade-out {
+            animation: fadeOut 0.6s forwards;
+            visibility: hidden;
+            /* 要素を非表示 */
+        }
+
+        .login {
+            display: block;
+            height: 120mm;
+            width: 100%;
+            background-color: #00000000;
+        }
+
+        .user-list {
+            display: block;
+            height: 100%;
+            width: 80mm;
+            background-color: #00000000;
+        }
+
+        .center-n {
+            position: static;
+            width: 70mm;
+            height: 65mm;
+            margin: 0 auto;
+            margin-top: 10mm;
+
+
+        }
+
+        label {
+            margin-top: 5mm;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            box-sizing: border-box;
+            width: 70mm;
+            padding: 3mm;
+            margin-top: 1mm;
+            border: none;
+            border-bottom: 1px solid #cccccc;
+            border-radius: 0px;
+            background-color: #00000000;
+            transition: all 0.4s;
+            color: #ffffff;
+            font-size: 1.2em;
+
+            &:focus,
+            &:hover {
+                background-color: #ffffff;
+                color: #000000;
+            }
+        }
+
+        input[type="button"] {
+            background-color: #464646;
+            color: #fff;
+            border: none;
+            font-size: 1em;
+            padding: 3mm 10mm;
+            margin-top: 3mm;
+            border-radius: 0px;
+            cursor: pointer;
+            transition: all 0.4s;
+
+            &:hover {
+                background-color: #371371;
+            }
+        }
+
+        .user-s {
+            height: 105mm;
+            width: 80mm;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+
+            &::-webkit-scrollbar {
+                width: 2mm;
+                /* スクロールバーの幅 */
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: rgba(255, 255, 255, 0.425);
+                /* スクロールバーのハンドルの色 */
+                border-radius: 0;
+                /* スクロールバーのハンドルの角丸 */
+            }
+
+            &::-webkit-scrollbar-track {
+                background-color: #00000000;
+                /* スクロールバーのトラックの色 */
+            }
+
+
+        }
+
+        .h2 {
+            width: 80mm;
+            height: 15mm;
+            display: flex;
+            align-items: center;
+
+        }
+
+        .user {
+            display: flex;
+            width: 80mm;
+            height: 15mm;
+            transition: all 0.4s;
+            &:hover{
+                background-color: #ffffff1d;
+            }
+
+        }
+
+        .user-icon {
+            box-sizing: border-box;
+            width: 15mm;
+            height: 15mm;
+            color: #00000000;
+            padding: 1mm;
+            clip-path: circle(44% at 50% 50%);
+
+
+        }
+        img{
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+        }
+
+        .user-info {
+            padding-left: 2mm;
+        }
+
+        #info {
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ff5bec;
+            position: relative;
+            padding-bottom: 0.1em;
+            transition: color 0.2s;
+            display: inline-block;
+            background-color: #00000000;
+        }
+
+        a:hover {
+            color: #ff00e1;
+        }
+
+        a::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 0.2em;
+            background-color: #ff00e1;
+            bottom: 0;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s;
+        }
+
+        a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        @media screen and (max-width:250mm) {
+
+            .center {
+                width: 100%;
+            }
+
+        }
+
+        @media screen and (max-width:170mm) {
+
+            .center {
+                width: calc(100% + 80mm);
+            }
+
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            /* 半透明の背景 */
+            z-index: 9999;
+            /* 最前面に表示 */
+            display: none;
+        }
+
+        .err {
+            border-bottom: solid 1px #ff0000 !important;
+            color: #ff0000 !important;
+            &:focus,
+            &:hover {
+                color: #000000 !important;
+            }
+        }
+
+
+        .area {
+            position: absolute;
+            z-index: 0;
+            background: #12151b;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+
+        }
+
+        .circles {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .circles li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: #ffffff1f;
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+
+        }
+
+        .circles li:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+
+        .circles li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .circles li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .circles li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .circles li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .circles li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .circles li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .circles li:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .circles li:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+
+
+        @keyframes animate {
+
+            0% {
+                transform: translateY(0) rotate(0deg);
+                filter: blur(0mm);
+
+
+            }
+
+            50% {
+                transform: translateY(-75vh) rotate(360deg);
+
+                filter: blur(0mm);
+
+
+            }
+
+            100% {
+                transform: translateY(-150vh) rotate(720deg);
+
+                filter: blur(5mm);
+
+
+
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+    <div class="lock-display"></div>
+    <div class="center fade-in">
+        <div class="overlay" id="overlay"></div>
+        <div class="login fade-in">
+            <h1>Login - IDIS</h1>
+            <div class="center-n">
+
+                <label for="username">USER</label>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <label for="password">password</label>
+                <input type="password" id="password" name="password" required><br><br>
+
+
+                <input type="button" value="login" onclick="login()">
+
+
+
+                <a href="/signup">Create_Account</a>
+            </div>
+            <p id="info"></p>
+        </div>
+        <div class="user-list fade-in">
+            <div class="h2">
+                <h2>> Account-List</h2>
+            </div>
+            <div class="user-s">
+
+                <div class="user">
+                    <div class="user-icon"><img src="/get/icon.png" alt="account icon"></div>
+                    <div class="user-info">
+                        <h3>@ GuestAccount</h3>
+                        <p>session out</p>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function lockPage() {
+        document.getElementById('overlay').style.display = 'block';
+
+    }
+
+    // ロックを解除する関数
+    function unlockPage() {
+        document.getElementById('overlay').style.display = 'none';
+
+    }
+
+    function validateText(text) {
+        const regex = /^[A-Za-z0-9_]{4,30}$/; // 半角英数字と_で4文字以上30文字以内
+        return regex.test(text);
+    }
+
+    function validatePassword(password) {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()=\-~^\\|`@{\[\]+;*:}\<,>\.?\/_])[A-Za-z\d!"#$%&'()=\-~^\\|`@{\[\]+;*:}\<,>\.?\/_]{8,32}$/
+
+        return regex.test(password);
+    }
+
+
+
+    // 非同期関数の定義
+    async function fetchToken() {
+        // Promiseを返して、grecaptcha.readyの完了を待つ
+        return new Promise((resolve, reject) => {
+            grecaptcha.ready(() => {
+                grecaptcha.execute('6LfdY3MpAAAAAAsxGJuIoCG5L8W1uEWgMnbh2sr0', { action: 'login_attempt' }).then(token => {
+                    resolve(token);
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+        });
+    }
+
+
+    // 非同期関数に変更
+    async function login() {
+        lockPage();
+        document.getElementById("info").innerHTML = 'Login processing...';
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        document.getElementById("username").classList.remove("err")
+        document.getElementById("password").classList.remove("err")
+
+        if (!validateText(username)) {
+            document.getElementById("info").innerHTML = "ERR - Invalid user name. It must be between 4 and 30 characters.";
+            document.getElementById("username").classList.add("err");
+            unlockPage();
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            document.getElementById("info").innerHTML = "ERR - The password must be at least 8 characters long and contain lowercase letters, uppercase letters, and certain symbols.";
+            document.getElementById("password").classList.add("err");
+            unlockPage();
+            return;
+        }
+
+        // awaitで待機(たまに通らない)
+        const token = await fetchToken();
+
+        // JSONデータをtukur
+        const data = {
+            username: "@" + username,
+            password: password,
+            recap_pn: token  // 取得したトークンdazo
+        };
+
+        // JSONデータをサーバーにsend
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // ログイン成功時の処理
+                    window.location.href = result.txt;
+                } else {
+                    // ログイン失敗時の処理
+                    document.getElementById("info").innerHTML = `ERR - ${result.txt}`;
+                    unlockPage();
+                }
+            })
+            .catch(error => {
+                console.error('エラー:', error);
+                document.getElementById("info").innerHTML = 'ERR - The request failed. Not offline?';
+                unlockPage();
+            });
+    }
+
+</script>
+
+</html>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6LfdY3MpAAAAAAsxGJuIoCG5L8W1uEWgMnbh2sr0"></script>
