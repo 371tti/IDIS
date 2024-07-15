@@ -14,10 +14,16 @@ this number include many idis api.
 - `0002`: file send viw
 
 ## json_api ver0
+
+またこれは  
+`server.py > Class JsonApi`  
+に定義されています  
+レスポンスのフォーマットです  
+
 idis api have some template element.
 1. num responce
    - `version` : the api version 
-   - `type` : responce type
+   - `type` : responce,data type
    - `code` : like http status code
    - `prosess_num` : the number of the process that was executed
    - `UTC` : the time at which the API exited
@@ -43,5 +49,24 @@ idis api have some template element.
     }
     ```
 
+## json_db v0
+これはjsonのdbフォーマットです。mongodbで使います。
+mongoDBにはコレクション内では同一のフォーマットが使用されます。
+これは厳守されなければいけません。
+
+- `users > @` のフォーマット
+  ユーザーについてのデータを保存します。
+   ```json
+   {
+      'account-type': account_type,
+      'id': user_id,
+      'name': username,
+      'password': user_password,
+      'e-mail': user_mail_address,
+      'berth': berth_date,
+      'RUID': User_RUID,
+      'root-path': account_root_folder_path
+   }
+   ```
 ## session
 save at cokie > session_id
