@@ -228,11 +228,11 @@ class FileAPI:
     streaming_chunk_size = 1024* 1024 * 1
     c_d = os.getcwd()
     base_path = os.path.join(c_d,"users")
+    app.logger.info(f"set base path {base_path}")
     @staticmethod
     def send_file_strm(filename, url_fp="get", check_perm=True) -> Response:
         
         file_path = os.path.join(FileAPI.base_path, filename)
-        print(file_path)
         if not os.path.exists(file_path):
             if url_fp == "viw":
                 abort(404,"Maybe it's a 500 server err ...`Responses that have passed the permission check`")
