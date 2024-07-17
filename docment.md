@@ -111,5 +111,6 @@ mongoDBにはコレクション内では同一のフォーマットが使用さ�
       'root-path': account_root_folder_path
    }
    ```
+    作成時間はRUIDに含まれるUTCを参照
 ## session
 save at cokie > session_id
