@@ -56,47 +56,52 @@ this number include many idis api.
 - `0001`: file send get
 - `0002`: file send viw
 
-## HTTP−Endpoints
+## HTTP Endpoints
 
-### /users/<userIDquery> -> Json
-ユーザーIDを全検索　ヒットするユーザーとフォロワー数のJsonを返却(WS−APIを推奨)
+### `/users/<userIDquery>` -> JSON
+- **Description:** 全ユーザーIDを検索し、ヒットするユーザーとフォロワー数をJSON形式で返却します。
+- **Recommendation:** WS-APIを推奨。
 
-### /user/<userID> -> Json
-ユーザー情報を取得(WS−APIを推奨)
+### `/user/<userID>` -> JSON
+- **Description:** 指定したユーザーIDのユーザー情報を取得します。
+- **Recommendation:** WS-APIを推奨。
 
-### /ls/@<<userID>>/<path> -> Json
-パスのフォルダ又はファイルのメタデータを取得(WS−APIを推奨)
+### `/ls/@<userID>/<path>` -> JSON
+- **Description:** 指定したパスのフォルダまたはファイルのメタデータを取得します。
+- **Recommendation:** WS-APIを推奨。
 
-### /rm/@<userID>/<path> -> Json
-パスのフォルダ又はファイルを削除。メタデータを取得。(WS−APIを推奨)
+### `/rm/@<userID>/<path>` -> JSON
+- **Description:** 指定したパスのフォルダまたはファイルを削除し、メタデータを取得します。
+- **Recommendation:** WS-APIを推奨。
 
-###　/upload/@<userID>/<path> -> Json
-ファイルをアップロードもしくはフォルダの作成。(WS−APIを推奨)
+### `/upload/@<userID>/<path>` -> JSON
+- **Description:** ファイルをアップロードするか、フォルダを作成します。
+- **Recommendation:** WS-APIを推奨。
 
-### /edit/@<userID>/<path> ->　Json
-ファイルまたはフォルダのメタデータを上書き(WS−APIを推奨)
+### `/edit/@<userID>/<path>` -> JSON
+- **Description:** ファイルまたはフォルダのメタデータを上書きします。
+- **Recommendation:** WS-APIを推奨。
 
-### /get/@<userID>/<path> -> BinaryStream
-ファイルを取得（強制ダウンロード）
+### `/get/@<userID>/<path>` -> BinaryStream
+- **Description:** 指定したファイルを強制ダウンロードします。
 
-### /viw/@<userID>/<path> -> BinaryStream
-ファイルを取得
+### `/viw/@<userID>/<path>` -> BinaryStream
+- **Description:** 指定したファイルを取得します。
 
-### /@<user>/<path> -> Html
-エージェントを用いてファイルを取得
+### `/@<user>/<path>` -> HTML
+- **Description:** エージェントを用いてファイルを取得します。
 
-### /resend?url=<URL>&ms=<Message>&time=<WaitTime> -> HTML
-リダイレクトページを取得
+### `/resend?url=<URL>&ms=<Message>&time=<WaitTime>` -> HTML
+- **Description:** リダイレクトページを取得します。
 
-### /login -> HTML
-ログインページ
+### `/login` -> HTML
+- **Description:** ログインページ。
 
-### /signup -> HTML
-サインアップページ
+### `/signup` -> HTML
+- **Description:** サインアップページ。
 
-### /root/r ->　BinaryStream
-システムのスタックファイル
-
+### `/root/r` -> BinaryStream
+- **Description:** システムのスタックファイルを取得します。
 ## json_api ver0
 
 またこれは  
