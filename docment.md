@@ -56,6 +56,18 @@ this number include many idis api.
 - `0001`: file send get
 - `0002`: file send viw
 
+## API
+
+### /users/<userIDquery>
+ユーザーIDを全検索　ヒットするユーザーとフォロワー数のJsonを返却
+
+### /user/<userID>
+ユーザー情報を取得
+
+### /get/@<userID>/<path>
+ファイルを取得
+
+### /viw/@<userID>/<path>
 ## json_api ver0
 
 またこれは  
