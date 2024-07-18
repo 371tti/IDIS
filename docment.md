@@ -56,18 +56,47 @@ this number include many idis api.
 - `0001`: file send get
 - `0002`: file send viw
 
-## API
+## HTTP−Endpoints
 
-### /users/<userIDquery>
-ユーザーIDを全検索　ヒットするユーザーとフォロワー数のJsonを返却
+### /users/<userIDquery> -> Json
+ユーザーIDを全検索　ヒットするユーザーとフォロワー数のJsonを返却(WS−APIを推奨)
 
-### /user/<userID>
-ユーザー情報を取得
+### /user/<userID> -> Json
+ユーザー情報を取得(WS−APIを推奨)
 
-### /get/@<userID>/<path>
+### /ls/@<userID>/<path> -> Json
+パスのフォルダ又はファイルのメタデータを取得(WS−APIを推奨)
+
+### /rm/@<userID>/<path> -> Json
+パスのフォルダ又はファイルを削除。メタデータを取得。(WS−APIを推奨)
+
+###　/upload/@<userID>/<path> -> Json
+ファイルをアップロードもしくはフォルダの作成。(WS−APIを推奨)
+
+### /edit/@<userID>/<path> ->　Json
+ファイルまたはフォルダのメタデータを上書き(WS−APIを推奨)
+
+### /get/@<userID>/<path> -> BinaryStream
+ファイルを取得（強制ダウンロード）
+
+### /viw/@<userID>/<path> -> BinaryStream
 ファイルを取得
 
-### /viw/@<userID>/<path>
+### /@<user>/<path> -> Html
+エージェントを用いてファイルを取得
+
+### /resend?url=<URL>&ms=<Message>&time=<WaitTime> -> HTML
+リダイレクトページを取得
+
+### /login -> HTML
+ログインページ
+
+### /signup -> HTML
+サインアップページ
+
+### /root/r ->　BinaryStream
+システムのスタックファイル
+
 ## json_api ver0
 
 またこれは  
