@@ -64,7 +64,7 @@ this number include many idis api.
 ### /user/<userID> -> Json
 ユーザー情報を取得(WS−APIを推奨)
 
-### /ls/@<userID>/<path> -> Json
+### /ls/@@<userID>/<path> -> Json
 パスのフォルダ又はファイルのメタデータを取得(WS−APIを推奨)
 
 ### /rm/@<userID>/<path> -> Json
